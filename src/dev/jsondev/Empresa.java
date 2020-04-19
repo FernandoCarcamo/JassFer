@@ -1,5 +1,6 @@
 package dev.jsondev;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Empresa {
@@ -19,8 +20,23 @@ public class Empresa {
 
     }
 
-    public void quitEmpleado(String m){
+    public void quitEmpleado(String numero){
+        Empleado empleado = null;
+        for (Empleado e : planilla) {
+            for (Documento documento : e.getDocumentos()) {
+                if (documento.getNumero().equals(numero)) {
+                    empleado = e;
+                    break;
+                }
+            }
+        }
 
-
+        if(empleado != null){
+            planilla.remove(empleado);
+            JOptionPane.showMessageDialog(null, "Se ha despedido al usuario: " + empleado.getNombre());
+        }
+       else
+           JOptionPane.showMessageDialog(null, "El usuario no existe!!!!");
     }
-}
+    }
+

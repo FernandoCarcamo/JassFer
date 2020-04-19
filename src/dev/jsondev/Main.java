@@ -6,18 +6,20 @@ import java.util.ArrayList;
 public class Main {
 
     static ArrayList<Empleado> empleados = new ArrayList<>();
+    static Empresa emp = new Empresa("Facebook");
 
-    public static void main(String[] args) {
-        Empresa emp = new Empresa("Facebook");
+    public static void main(String[] args) throws NotExistingEmployeeException {
+
         String[] menu = {"0. Salir", "1. Agregar Empleado", "2. Despedir empleado", "3. Ver lista de empleados",
                 "4. Calcular sueldo", "5 Mostrar totales"};
         String[] menu1 = {"1. Servicio profesional", "2. Plaza fija"};
 
-        int opc = 0, opc1 = 0;
+        boolean continuar = true;
         do {
             switch (JOptionPane.showOptionDialog(null, "Elige una opcion: ", "Menu: ", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                     null, menu, menu[0])) {
                 case 0:
+                    continuar = false;
                     JOptionPane.showMessageDialog(null, "Saliendo...");
                     break;
                 case 1:
@@ -37,9 +39,11 @@ public class Main {
                     break;
                 case 2:
                     //Despedir Empleado
+                    despedir();
                     break;
                 case 3:
                     //Listado de empleados
+                    listaEmpleados();
                     break;
                 case 4:
                     calcularSueldo();
@@ -51,10 +55,35 @@ public class Main {
                     break;
                 default:
                     break;
-
-
             }
-        } while (true);
+        } while (continuar);
+    }
+
+    public static void listaEmpleados(){
+        String[] menu = {"1. Servicio profesional", "2. Plaza fija"};
+        switch (JOptionPane.showOptionDialog(null, "Elige una opcion: ", "Menu: ", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, menu, menu[0])) {
+            case 0:
+                for(Empleado s: empleados){
+                    if(s instanceof ServicioProfesional){
+                        JOptionPane.showMessageDialog(null, s.toString() + "\n");
+                    }
+                }
+                break;
+            case 1:
+                for(Empleado e: empleados){
+                    if(e instanceof PlazaFija){
+                        JOptionPane.showMessageDialog(null, e.toString() + "\n");
+                    }
+                }
+                break;
+        }
+
+    }
+
+    public static void despedir() {
+        String numero = JOptionPane.showInputDialog(null, "Ingrese el DUI o NIT Sin espacios del empleado que desea despedir");
+        emp.quitEmpleado(numero);
     }
 
     public static void mostrarTotales() {
@@ -66,7 +95,7 @@ public class Main {
     }
 
     public static void calcularSueldo() {
-        String doc = JOptionPane.showInputDialog(null, "Ingrese el DUI o NIT Sin espacios ni guiones: ");
+        String doc = JOptionPane.showInputDialog(null, "Ingrese el DUI o NIT Sin espacios: ");
         Empleado empleado = null;
         for (Empleado e : empleados) {
             for (Documento documento : e.getDocumentos()) {
