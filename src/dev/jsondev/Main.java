@@ -84,6 +84,7 @@ public class Main {
     public static void despedir() {
         String numero = JOptionPane.showInputDialog(null, "Ingrese el DUI o NIT Sin espacios del empleado que desea despedir");
         emp.quitEmpleado(numero);
+
     }
 
     public static void mostrarTotales() {
