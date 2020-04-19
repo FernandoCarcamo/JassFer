@@ -7,13 +7,14 @@ public final class CalculadoraImpuestos {
 
     private CalculadoraImpuestos(){}
 
-    public double calcularPago(Empleado m){
-        if(m instanceof PlazaFija){
-
-        }else{
-
-        }
-    }
+//    public double calcularPago(Empleado m){
+//        if(m instanceof PlazaFija){
+//
+//        }else{
+//
+//        }
+//        return Empleado;
+//    }
 
     public String mostrarTotales(){
         return "";

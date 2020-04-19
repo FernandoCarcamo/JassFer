@@ -32,10 +32,9 @@ public abstract class Empleado {
         this.documentos.add(m);
     }
     public void removeDocumento(String r){
-        String nombre = JOptionPane.showInputDialog(null, "Ingresar nombre del documento que desea eliminar: ");
         Documento p = null;
         for (Documento w : documentos) {
-            if (w.getNombre().equals(nombre)) {
+            if (w.getNombre().equals(r)) {
                 p = w;
             }
         }
