@@ -5,65 +5,146 @@ import java.util.ArrayList;
 
 public class Main {
 
-    static ArrayList<Empleado> servicioPorfesional = new ArrayList<>();
-    static ArrayList<Empleado> plazaFija = new ArrayList<>();
+    static ArrayList<Empleado> empleados = new ArrayList<>();
 
     public static void main(String[] args) {
         Empresa emp = new Empresa("Facebook");
-        String[] menu = { "0. Salir", "1. Agregar Empleado", "2. Despedir empleado", "3. Ver lista de empleados",
-                          "4. Calcular sueldo", "5 Mostrar totales"};
+        String[] menu = {"0. Salir", "1. Agregar Empleado", "2. Despedir empleado", "3. Ver lista de empleados",
+                "4. Calcular sueldo", "5 Mostrar totales"};
         String[] menu1 = {"1. Servicio profesional", "2. Plaza fija"};
 
         int opc = 0, opc1 = 0;
-        do{
+        do {
             switch (JOptionPane.showOptionDialog(null, "Elige una opcion: ", "Menu: ", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                     null, menu, menu[0])) {
                 case 0:
                     JOptionPane.showMessageDialog(null, "Saliendo...");
                     break;
                 case 1:
-                        switch (JOptionPane.showOptionDialog(null, "Elige una opcion: ", "Menu: ", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                                null, menu1, menu1[0])){
-                            case 1:
-                                servicioPorfesional.add(addServicioPro());
-                                break;
-                            case 2:
-                                plazaFija.add(addPlazaFija());
-                                break;
-                            default:
-                                break;
-                        }
+                    //Agregar Empleado
+                    switch (JOptionPane.showOptionDialog(null, "Elige una opcion: ", "Menu: ", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                            null, menu1, menu1[0])) {
+                        case 0:
+                            empleados.add(addServicioPro());
+                            break;
+                        case 1:
+                            empleados.add(addPlazaFija());
+                            break;
+                        default:
+                            break;
+                    }
 
                     break;
                 case 2:
+                    //Despedir Empleado
                     break;
                 case 3:
+                    //Listado de empleados
                     break;
                 case 4:
+                    calcularSueldo();
+                    //Calculas sueldo
                     break;
                 case 5:
+                    mostrarTotales();
+                    //Mostrar Totales
                     break;
                 default:
                     break;
 
 
-        }
-        }while(opc != 0);
+            }
+        } while (true);
     }
-    public static Empleado addServicioPro(){
+
+    public static void mostrarTotales() {
+        String listado = "";
+        for (Empleado e : empleados) {
+            listado += CalculadoraImpuestos.mostrarTotales(e) + "\n";
+        }
+        JOptionPane.showMessageDialog(null, listado);
+    }
+
+    public static void calcularSueldo() {
+        String doc = JOptionPane.showInputDialog(null, "Ingrese el DUI o NIT Sin espacios ni guiones: ");
+        Empleado empleado = null;
+        for (Empleado e : empleados) {
+            for (Documento documento : e.getDocumentos()) {
+                if (documento.getNumero().equals(doc)) {
+                    empleado = e;
+                    break;
+                }
+            }
+        }
+
+        if (empleado == null) {
+            JOptionPane.showMessageDialog(null, "No se encontro el empleado");
+            return;
+        }
+
+        JOptionPane.showMessageDialog(null, "El salario para: " + empleado.getNombre() + " es de: " + CalculadoraImpuestos.calcularPago(empleado));
+    }
+
+    public static Empleado addServicioPro() {
         String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre: ");
         String puesto = JOptionPane.showInputDialog(null, "Ingrese el puesto: ");
         double salario = Double.parseDouble(JOptionPane.showInputDialog(null, "Ingrese el salario"));
         int mesesContrato = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese los meses"));
-
-        return new ServicioProfesional(nombre,puesto,salario,mesesContrato);
+        ServicioProfesional s = new ServicioProfesional(nombre, puesto, salario, mesesContrato);
+        s.documentos = addDocs();
+        return s;
     }
-    public static Empleado addPlazaFija(){
+
+    public static Empleado addPlazaFija() {
         String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre: ");
         String puesto = JOptionPane.showInputDialog(null, "Ingrese el puesto: ");
         double salario = Double.parseDouble(JOptionPane.showInputDialog(null, "Ingrese el salario"));
-        int extension = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese los meses"));
+        int extension = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la extension"));
+        PlazaFija p = new PlazaFija(nombre, puesto, salario, extension);
+        p.documentos = addDocs();
+        return p;
 
-        return new PlazaFija(nombre,puesto,salario,extension);
+    }
+
+    public static ArrayList<Documento> addDocs() {
+        boolean f = false;
+        String dui = "", nit = "";
+        ArrayList<Documento> docs = new ArrayList<>();
+        do {
+            dui = JOptionPane.showInputDialog(null, "Ingrese el DUI sin guiones ni espacios:");
+            for (Empleado e : empleados) {
+                for (Documento doc : e.getDocumentos()) {
+                    if (doc.getNombre().equals("DUI") && doc.getNumero().equals(dui)) {
+                        JOptionPane.showMessageDialog(null, "DUI Ya establecido");
+                        f = true;
+                        break;
+                    }
+                }
+            }
+            if (!f) {
+                docs.add(new Documento("DUI", dui));
+            }
+        } while (f);
+        f = false;
+        do {
+            nit = JOptionPane.showInputDialog(null, "Ingrese el NIT sin guiones ni espacios:");
+            if (nit == dui) {
+                JOptionPane.showMessageDialog(null, "NIT No puede ser igual que el DUI");
+                f = true;
+            }
+            for (Empleado e : empleados) {
+                for (Documento doc : e.getDocumentos()) {
+                    if (doc.getNombre().equals("NIT") && doc.getNumero().equals(nit)) {
+                        JOptionPane.showMessageDialog(null, "NIT Ya establecido");
+                        f = true;
+                        break;
+                    }
+                }
+            }
+            if (!f) {
+                docs.add(new Documento("NIT", nit));
+            }
+        } while (f);
+        return docs;
     }
 }

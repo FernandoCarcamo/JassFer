@@ -1,7 +1,5 @@
 package dev.jsondev;
 
-import javax.print.Doc;
-import javax.swing.*;
 import java.util.ArrayList;
 
 public abstract class Empleado {
@@ -16,26 +14,36 @@ public abstract class Empleado {
         documentos = new ArrayList<>();
     }
 
-    public String getNombre() { return nombre; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public String getPuesto() { return puesto; }
+    public String getPuesto() {
+        return puesto;
+    }
 
-    public ArrayList<Documento> getDocumentos() { return documentos; }
+    public ArrayList<Documento> getDocumentos() {
+        return documentos;
+    }
 
-    public double getSalario() { return salario; }
+    public double getSalario() {
+        return salario;
+    }
 
     public void setSalario(double salario) {
         this.salario = salario;
     }
 
-    public void addDocumento(Documento m){
+    public void addDocumento(Documento m) {
         this.documentos.add(m);
     }
-    public void removeDocumento(String r){
+
+    public void removeDocumento(String r) {
         Documento p = null;
         for (Documento w : documentos) {
-            if (w.getNombre().equals(r)) {
+            if (w.getNumero().equals(r)) {
                 p = w;
+                break;
             }
         }
         if (p != null) {
