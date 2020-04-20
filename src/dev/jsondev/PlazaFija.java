@@ -8,18 +8,26 @@ public class PlazaFija extends Empleado {
         this.extension = extension;
     }
 
-    public int getExtension() { return extension; }
+    public int getExtension() {
+        return extension;
+    }
 
-    public void setExtension(int extension) { this.extension = extension; }
+    public void setExtension(int extension) {
+        this.extension = extension;
+    }
 
     @Override
     public String toString() {
-        return "PlazaFija{" +
-                "extension: " + extension +
-                "\nnombre: " + nombre +
-                "\npuesto: " + puesto +
-                "\ndocumentos: " + documentos +
-                "\nsalario: " + salario +
-                '}';
+        String docs = "";
+        for (Documento d : documentos) {
+            docs += "||" + d.toString();
+        }
+        return "*******************" +
+                "\nTipo: Plaza Fija" +
+                "\nNombre: " + nombre +
+                "\nPuesto: " + puesto +
+                "\nExtension: " + extension +
+                "\nDocumentos: " + docs +
+                "\nSalario: " + salario;
     }
 }

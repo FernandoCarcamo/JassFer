@@ -12,15 +12,19 @@ public class Empresa {
         planilla = new ArrayList<>();
     }
 
-    public String getNombre() { return nombre; }
-
-    public ArrayList<Empleado> getPlanilla() { return planilla; }
-
-    public void addEmpleado(Empleado m){
-
+    public String getNombre() {
+        return nombre;
     }
 
-    public void quitEmpleado(String numero){
+    public ArrayList<Empleado> getPlanilla() {
+        return planilla;
+    }
+
+    public void addEmpleado(Empleado m) {
+        this.planilla.add(m);
+    }
+
+    public void quitEmpleado(String numero) {
         Empleado empleado = null;
         for (Empleado e : planilla) {
             for (Documento documento : e.getDocumentos()) {
@@ -31,12 +35,11 @@ public class Empresa {
             }
         }
 
-        if(empleado != null){
+        if (empleado != null) {
             planilla.remove(empleado);
             JOptionPane.showMessageDialog(null, "Se ha despedido al usuario: " + empleado.getNombre());
-        }
-       else
-           JOptionPane.showMessageDialog(null, "El usuario no existe!!!!");
+        } else
+            JOptionPane.showMessageDialog(null, "El usuario no existe!!!!");
     }
-    }
+}
 

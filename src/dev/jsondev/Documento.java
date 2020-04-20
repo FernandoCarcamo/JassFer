@@ -9,7 +9,16 @@ public class Documento {
         this.numero = numero;
     }
 
-    public String getNombre() { return nombre; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public String getNumero() { return numero; }
+    public String getNumero() {
+        return numero;
+    }
+
+    @Override
+    public String toString() {
+        return this.nombre + ": " + this.numero;
+    }
 }
