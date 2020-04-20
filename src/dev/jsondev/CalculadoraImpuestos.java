@@ -11,7 +11,7 @@ public class CalculadoraImpuestos {
     public static double calcularPago(Empleado m) {
         double restante, pago;
         if (m instanceof PlazaFija) {
-            totalAFP = m.getSalario() * 0.0725;
+            totalAFP = m.getSalario() * 0.0625;
             totalISSS = m.getSalario() * 0.03;
             restante = m.getSalario() - totalAFP - totalISSS;
 
